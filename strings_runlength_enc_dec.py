@@ -1,6 +1,8 @@
-# Coding Problem #29
-# Run-length encoding and decoding
-# Example: 'AAAABBBCCDAA' <-> '4A3B2C1D2A'
+"""Coding Problem #29
+Run-length encoding and decoding
+
+Example: 'AAAABBBCCDAA' <=> '4A3B2C1D2A'
+"""
 def encode(word):
     result = ""
     i = 0
@@ -9,6 +11,7 @@ def encode(word):
         previous_letter = word[i]
         count = 0
         while i < length and word[i] == previous_letter:
+            # Counts the repeating character
             count += 1
             i += 1
         result += f"{count}{previous_letter}"
@@ -25,8 +28,11 @@ def decode(word):
     while i < length:
         j = int(word[i])
         while j > 0:
+            # Appends character to the result string j times:
             result += word[i + 1]
             j -= 1
+        # The string to decode has the /^(\d[Aa-Zz])+$/ format,
+        #   so i is incremented by 2, to get the next digit character
         i += 2
     print(result)
 
