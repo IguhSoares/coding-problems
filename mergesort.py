@@ -1,15 +1,14 @@
-from typing import List, Tuple
+from typing import Callable, List
 
 
-def merge_tuple(left: List[Tuple], right: List[Tuple]) -> List[Tuple]:
-    # [(start, end), (start, end)]
+def merge(left: List[int], right: List[int]) -> List[int]:
     size_L = len(left)
     size_R = len(right)
     result: List[int] = []
 
     i, j = [0, 0]
     while i < size_L and j < size_R:
-        if left[i].end <= right[j].end:
+        if left[i] <= right[j]:
             result.append(left[i])
             i += 1
         else:
@@ -27,7 +26,7 @@ def merge_tuple(left: List[Tuple], right: List[Tuple]) -> List[Tuple]:
     return result
 
 
-def mergesort(array: List[int]) -> List[int]:
+def mergesort(array: List[int], merge_func: Callable[ [List, List], List ] = None) -> List[int]:
     size = len(array)
     if size == 1:
         return array
@@ -35,4 +34,5 @@ def mergesort(array: List[int]) -> List[int]:
     left: List[int] = mergesort(array[: size // 2])
     right: List[int] = mergesort(array[size // 2 :])
 
-    return merge_tuple(left, right)
+
+    return merge_func(left, right) if bool(merge_func) else merge(left, right)
