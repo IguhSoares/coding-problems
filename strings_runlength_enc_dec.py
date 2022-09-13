@@ -3,13 +3,13 @@ Run-length encoding and decoding
 
 Example: 'AAAABBBCCDAA' <=> '4A3B2C1D2A'
 """
-def encode(word):
-    result = ""
+def encode(word: str) -> str:
+    result: str = ""
     i = 0
     length = len(word)
     while i < length:
         previous_letter = word[i]
-        count = 0
+        count: int = 0
         while i < length and word[i] == previous_letter:
             # Counts the repeating character
             count += 1
@@ -21,9 +21,9 @@ def encode(word):
 encode("aaabccccdeff")
 
 
-def decode(word):
+def decode(word: str) -> str:
     i = 0
-    result = ""
+    result: str = ""
     length = len(word)
     while i < length:
         j = int(word[i])
