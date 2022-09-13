@@ -1,17 +1,19 @@
-# Coding Problem #21
-# Given an array of time intervals (start, end) for classrom lectures
-# find the minimun number of rooms required
-#
-# Example: [(30, 75), (0, 50), (60,150)] -> return 2
+"""Coding Problem #21
+
+Given an array of time intervals (start, end) for classrom lectures
+find the minimun number of rooms required
+
+Example: [(30, 75), (0, 50), (60,150)] -> return 2
+"""
 from typing import List, NamedTuple, Tuple
-from collections import namedtuple
 from mergesort import mergesort
 
-Duration: NamedTuple = namedtuple("Duration", "start end")
+class Duration(NamedTuple):
+    start: int
+    end: int
 
-
-def merge_tuple(left: List[Tuple], right: List[Tuple]) -> List[Tuple]:
-    # [(start, end), (start, end)]
+"""Custom merging function passed to mergesort()"""
+def merge_tuple(left: List[Duration], right: List[Duration]) -> List[Duration]:
     size_L = len(left)
     size_R = len(right)
     result: List[int] = []
@@ -48,9 +50,9 @@ def min_classroom_number():
 
     """
     Worst case scenario:
-    all durations overlapping, so number of rooms (k) is
+    all durations overlapping, and number of rooms (k) is
     equal to the number of durations (n)
-    In this case, the complexity will be O(n²)
+    In this case, the time complexity will be O(n²)
     """
     # time_intervals = [ # Worst case scenario example
     #     Duration(30, 75),
@@ -62,16 +64,22 @@ def min_classroom_number():
     #     Duration(40, 150),
     # ]
 
+    # Sorts all time intervals by end time:
     possible_classes: List[Duration] = mergesort(time_intervals, merge_tuple)  # O(n*logn)
 
     rooms: List[List[Duration]] = []
 
     while bool(possible_classes):
-        appended = False
+        # Tracks whether the time interval was appended to a room:
+        appended: bool = False
         if rooms != []:
             for room in rooms:  # O(k*n), k = number of rooms
+                # Gets the duration of the last class in this room:
                 last_class = room[-1]
                 min_start_time = None
+
+                # Finds, if it exists, the time interval with the minimun start time
+                #   that starts after the last class in the room:
                 for duration in possible_classes:  # O(n)
                     if not bool(min_start_time):
                         if last_class.end <= duration.start:
@@ -84,10 +92,13 @@ def min_classroom_number():
                     room.append(min_start_time)
                     possible_classes.remove(min_start_time)  # O(n)
                     appended = True
-
+        # If didn't find a room to append this time interval, appends it to a new room:
         if not appended:
             rooms.append([possible_classes.pop(0)])
 
+    return rooms
+
+def print_rooms(rooms: List[List[Duration]]) -> None:
     print(f"=> { len(rooms) } classrooms:")
     i = 0
     for room in rooms:  # O(k*n)
@@ -98,4 +109,4 @@ def min_classroom_number():
         print(classes)
 
 
-min_classroom_number()
+print_rooms(min_classroom_number())
