@@ -3,13 +3,37 @@
 # find the minimun number of rooms required
 #
 # Example: [(30, 75), (0, 50), (60,150)] -> return 2
-from __future__ import annotations
-from typing import NamedTuple
+from typing import List, NamedTuple, Tuple
 from collections import namedtuple
-from mergesort_v2 import *
+from mergesort import mergesort
 
 Duration: NamedTuple = namedtuple("Duration", "start end")
 
+
+def merge_tuple(left: List[Tuple], right: List[Tuple]) -> List[Tuple]:
+    # [(start, end), (start, end)]
+    size_L = len(left)
+    size_R = len(right)
+    result: List[int] = []
+
+    i, j = [0, 0]
+    while i < size_L and j < size_R:
+        if left[i].end <= right[j].end:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    while i < size_L:
+        result.append(left[i])
+        i += 1
+
+    while j < size_R:
+        result.append(right[j])
+        j += 1
+
+    return result
 
 def min_classroom_number():
     time_intervals = [
@@ -38,7 +62,7 @@ def min_classroom_number():
     #     Duration(40, 150),
     # ]
 
-    possible_classes: List[Duration] = mergesort(time_intervals)  # O(n*logn)
+    possible_classes: List[Duration] = mergesort(time_intervals, merge_tuple)  # O(n*logn)
 
     rooms: List[List[Duration]] = []
 
