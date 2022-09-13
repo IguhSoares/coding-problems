@@ -26,7 +26,7 @@ def merge(left: List[int], right: List[int]) -> List[int]:
     return result
 
 
-def mergesort(array: List[int], merge_func: Callable[ [List, List], List ] = None) -> List[int]:
+def mergesort(array: List[int], merge_func: Callable[ [List, List], List ] = merge) -> List[int]:
     size = len(array)
     if size == 1:
         return array
@@ -34,5 +34,4 @@ def mergesort(array: List[int], merge_func: Callable[ [List, List], List ] = Non
     left: List[int] = mergesort(array[: size // 2])
     right: List[int] = mergesort(array[size // 2 :])
 
-
-    return merge_func(left, right) if bool(merge_func) else merge(left, right)
+    return merge_func(left, right) 
