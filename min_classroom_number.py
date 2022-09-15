@@ -5,7 +5,7 @@ find the minimun number of rooms required
 
 Example: [(30, 75), (0, 50), (60,150)] -> return 2
 """
-from typing import List, NamedTuple, Tuple
+from typing import List, NamedTuple
 from mergesort import mergesort
 
 class Duration(NamedTuple):
