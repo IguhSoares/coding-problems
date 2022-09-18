@@ -12,30 +12,9 @@ class Duration(NamedTuple):
     start: int
     end: int
 
-"""Custom merging function passed to mergesort()"""
-def merge_tuple(left: List[Duration], right: List[Duration]) -> List[Duration]:
-    size_L = len(left)
-    size_R = len(right)
-    result: List[int] = []
-
-    i, j = [0, 0]
-    while i < size_L and j < size_R:
-        if left[i].end <= right[j].end:
-            result.append(left[i])
-            i += 1
-        else:
-            result.append(right[j])
-            j += 1
-
-    while i < size_L:
-        result.append(left[i])
-        i += 1
-
-    while j < size_R:
-        result.append(right[j])
-        j += 1
-
-    return result
+"""Custom comparisson function passed to mergesort()"""
+def compare_tuple(tuple_1: Duration, tuple_2: Duration) -> int:
+    return tuple_1.end - tuple_2.end
 
 def min_classroom_number():
     time_intervals = [
@@ -65,7 +44,7 @@ def min_classroom_number():
     # ]
 
     # Sorts all time intervals by end time:
-    possible_classes: List[Duration] = mergesort(time_intervals, merge_tuple)  # O(n*logn)
+    possible_classes: List[Duration] = mergesort(time_intervals, compare_tuple)  # O(n*logn)
 
     rooms: List[List[Duration]] = []
 
