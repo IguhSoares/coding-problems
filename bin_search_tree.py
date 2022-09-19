@@ -43,8 +43,8 @@ class Node():
         queue = [self]
         while queue != []:
             node = queue.pop(0)
-            print(f'Node: {node.value} => left: {  node.left.value if node.left not in [-1, None]  else node.left }')
-            print(f'Node: {node.value} => right: {  node.right.value if node.right not in [-1, None] else node.right }')
+            print(f'Node: {node.value} => left: {  node.left.value if node.left != None else node.left }')
+            print(f'Node: {node.value} => right: {  node.right.value if node.right != None else node.right }')
             if type(node.left) == Node:
                 queue.append(node.left)
             if type(node.right) == Node:
