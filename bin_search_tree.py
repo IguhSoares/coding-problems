@@ -38,3 +38,14 @@ class Node():
                 node = self.right.append(value)
         
         return node
+
+    def print_tree(self):
+        queue = [self]
+        while queue != []:
+            node = queue.pop(0)
+            print(f'Node: {node.value} => left: {  node.left.value if node.left not in [-1, None]  else node.left }')
+            print(f'Node: {node.value} => right: {  node.right.value if node.right not in [-1, None] else node.right }')
+            if type(node.left) == Node:
+                queue.append(node.left)
+            if type(node.right) == Node:
+                queue.append(node.right)
