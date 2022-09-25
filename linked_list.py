@@ -6,12 +6,60 @@ class Node:
     def __init__(self, val: Any) -> Node:
         self.value = val
         self.next: Node|None = None
-        self.prev: Node|None = None
 
     def __str__(self) -> str:
         return f'{self.value}'
 
     __repr__ = __str__
+
+
+class SinglyLinkedList:
+    def __init__(self) -> SinglyLinkedList:
+        self.head: Node|None = None
+        self.length: int = 0
+
+    EMPTY_LIST_MSG: Final[str] = 'Empty List'
+
+    def __str__(self) -> str:
+        if not self.head:
+            return self.EMPTY_LIST_MSG
+
+        n = self.head
+        list_values: str = 'Start'
+        for _ in range(self.length):
+            list_values += f' -> {n}'
+            n = n.next
+
+        return list_values
+
+    __repr__ = __str__
+
+    def enqueue(self, val: Any) -> Any:
+        node = Node(val)
+
+        if self.head:
+            node.next = self.head
+        self.head = node
+        self.length += 1
+
+        return val
+
+    def dequeue(self) -> Any:
+        if not self.head:
+            raise LookupError(f'{self.EMPTY_LIST_MSG} >> No element to dequeue')
+
+        node = self.head
+        self.head = node.next
+        node.next = None
+        self.length -= 1
+
+        return node.value
+
+    def peek(self) -> Any:
+        if not self.head:
+            raise LookupError(f'{self.EMPTY_LIST_MSG} >> No element to peek')
+
+        return self.head.value
 
 
 class DoublyLinkedList:
